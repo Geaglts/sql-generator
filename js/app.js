@@ -22,8 +22,16 @@ class Table {
     return this.name;
   }
 
-  setField(field, type, properties) {
-    this.fields[field] = { type, properties };
+  setField(field, type, properties, relation) {
+    if (relation) {
+      // FOREIGN KEY (${local}) REFERENCES Persons(${remoto})
+      // relacion local,remoto con tabla
+      const [local, remoto] = field.trim().split(",");
+      const relationString = `FOREIGN KEY (${local}) REFERENCES ${type}(${remoto})`;
+      this.fields["relations"] = { [type]: relationString };
+    } else {
+      this.fields[field] = { type, properties };
+    }
   }
 
   sqlProperties(field) {
@@ -91,9 +99,16 @@ function generateSchema() {
       const [_, nameField, typeField] = data;
       const properties = data.splice(3, line.length);
       table.setField(nameField, typeField, properties);
+    } else if (line.includes("relacion")) {
+      const table = schema.findTable(currentTable);
+      const data = line.split(" ");
+      const [_, fields, __, tableName] = data;
+      const properties = data.splice(5, line.length);
+      table.setField(fields, tableName, properties, true);
     }
   });
   let tables = "";
+  console.log(schema.tables);
   schema.tables.map((table) => {
     tables += table.toSQL() + "\n\n";
   });
