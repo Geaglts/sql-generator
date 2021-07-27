@@ -11,10 +11,6 @@ campo username varchar(16)
 */
 const $ = (selector) => document.querySelector(`${selector}`);
 
-$("#btnGenerate").addEventListener("click", () => {
-  generateSchema();
-});
-
 class Table {
   name = "";
   fields = {};
@@ -26,8 +22,23 @@ class Table {
     return this.name;
   }
 
-  setField(field, type) {
-    this.fields[field] = type;
+  setField(field, type, properties) {
+    this.fields[field] = { type, properties };
+  }
+
+  sqlProperties(field) {
+    const properties = this.fields[field].properties;
+    if (properties.length < 1) return "";
+    let stringProperties = "";
+    const SQL_PROPERTIES = {
+      "!nulo": "NOT NULL ",
+      unico: "UNIQUE",
+      nulo: "NULL",
+    };
+    for (let property of properties) {
+      stringProperties += " " + SQL_PROPERTIES[property];
+    }
+    return stringProperties;
   }
 
   toSQL() {
@@ -36,7 +47,8 @@ ${(() => {
   let fields = "";
   const keys = Object.keys(this.fields);
   for (let key of keys) {
-    fields += `    ${key} ${this.fields[key]?.toUpperCase() || ""},\n`;
+    fields += `    ${key} ${this.fields[key].type?.toUpperCase() || ""}`;
+    fields += `${this.sqlProperties(key)},\n`;
   }
   return fields.substring(0, fields.length - 2);
 })()}
@@ -70,8 +82,10 @@ function generateSchema() {
       schema.addTable(table);
     } else if (line.includes("campo")) {
       const table = schema.findTable(currentTable);
-      const [_, nameField, typeField] = line.split(" ");
-      table.setField(nameField, typeField);
+      const data = line.split(" ");
+      const [_, nameField, typeField] = data;
+      const properties = data.splice(3, line.length);
+      table.setField(nameField, typeField, properties);
     }
   });
   let tables = "";
@@ -80,6 +94,10 @@ function generateSchema() {
   });
   $("#taOutput").value = tables.substring(0, tables.length - 2);
 }
+
+$("#btnGenerate").addEventListener("click", () => {
+  generateSchema();
+});
 
 $("#taInput").addEventListener("keyup", () => {
   generateSchema();
