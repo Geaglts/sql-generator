@@ -34,6 +34,7 @@ class Table {
       "!nulo": "NOT NULL ",
       unico: "UNIQUE",
       nulo: "NULL",
+      primario: "PRIMARY KEY",
     };
     for (let property of properties) {
       stringProperties += " " + SQL_PROPERTIES[property];
@@ -47,8 +48,12 @@ ${(() => {
   let fields = "";
   const keys = Object.keys(this.fields);
   for (let key of keys) {
-    fields += `    ${key} ${this.fields[key].type?.toUpperCase() || ""}`;
-    fields += `${this.sqlProperties(key)},\n`;
+    if (key.includes("id")) {
+      fields += `    ${key} SERIAL PRIMARY KEY NOT NULL UNIQUE,\n`;
+    } else {
+      fields += `    ${key} ${this.fields[key].type?.toUpperCase() || ""}`;
+      fields += `${this.sqlProperties(key)},\n`;
+    }
   }
   return fields.substring(0, fields.length - 2);
 })()}
@@ -101,4 +106,10 @@ $("#btnGenerate").addEventListener("click", () => {
 
 $("#taInput").addEventListener("keyup", () => {
   generateSchema();
+});
+
+$("#btnCopy").addEventListener("click", () => {
+  $("#taOutput").select();
+  document.execCommand("copy");
+  document.getSelection().removeAllRanges();
 });
