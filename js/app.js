@@ -1,19 +1,32 @@
 /*
-tabla users
+borra el esquema public
+crea el esquema public
+
+tabla auth
+campo id
 campo email varchar(64)
 campo password varchar(64)
 campo username varchar(16)
 
-tabla auth
+tabla users
+campo id
 campo email varchar(64)
 campo password varchar(64)
 campo username varchar(16)
+relacion id,id con auth
+
+tabla prueba
+campo id
+campo nombre text unico
+relaciona id con id en auth
+relaciona nombre con email en users enulo
 */
 const $ = (selector) => document.querySelector(`${selector}`);
 
 class Table {
   name = "";
   fields = {};
+  relations = [];
   constructor(name) {
     this.name = name;
   }
@@ -22,26 +35,37 @@ class Table {
     return this.name;
   }
 
-  setField(field, type, properties, relation) {
-    if (relation) {
-      // FOREIGN KEY (${local}) REFERENCES Persons(${remoto})
-      // relacion local,remoto con tabla
-      const [local, remoto] = field.trim().split(",");
-      const relationString = `FOREIGN KEY (${local}) REFERENCES ${type}(${remoto})`;
-      this.fields["relations"] = { [type]: relationString };
-    } else {
-      this.fields[field] = { type, properties };
-    }
+  setRelation(tableName, ids, properties) {
+    const [local, remoto] = ids && ids.trim().split(",");
+    const string = `    FOREIGN KEY (${local}) REFERENCES ${tableName}(${remoto})`;
+    this.relations.push({ string, properties });
   }
 
-  sqlProperties(field) {
-    const properties = this.fields[field].properties;
+  setField(field, type, properties) {
+    this.fields[field] = { type, properties };
+  }
+
+  sqlRelations() {
+    let relationsString = "";
+    this.relations.forEach((relation) => {
+      const properties = this.sqlProperties(relation.properties);
+      relationsString += `${relation.string}${properties},\n`;
+    });
+    return relationsString;
+  }
+
+  sqlProperties(properties) {
     if (properties.length < 1) return "";
     let stringProperties = "";
     const SQL_PROPERTIES = {
       "!nulo": "NOT NULL ",
       unico: "UNIQUE",
       nulo: "NULL",
+      primario: "PRIMARY KEY",
+      enulo: "ON DELETE SET NULL",
+      ecascada: "ON DELETE CASCADE",
+      unulo: "ON UPDATE SET NULL",
+      ucascada: "ON UPDATE CASCADE",
       primario: "PRIMARY KEY",
     };
     for (let property of properties) {
@@ -50,8 +74,8 @@ class Table {
     return stringProperties;
   }
 
-  toSQL() {
-    return `CREATE TABLE ${this.name} (
+  toSQL(schema) {
+    return `CREATE TABLE ${`${schema ? `${schema}.` : ""}`}${this.name} (
 ${(() => {
   let fields = "";
   const keys = Object.keys(this.fields);
@@ -60,9 +84,11 @@ ${(() => {
       fields += `    ${key} SERIAL PRIMARY KEY NOT NULL UNIQUE,\n`;
     } else {
       fields += `    ${key} ${this.fields[key].type?.toUpperCase() || ""}`;
-      fields += `${this.sqlProperties(key)},\n`;
+      const properties = this.fields[key].properties;
+      fields += `${this.sqlProperties(properties)},\n`;
     }
   }
+  fields += this.sqlRelations();
   return fields.substring(0, fields.length - 2);
 })()}
 );`;
@@ -70,11 +96,29 @@ ${(() => {
 }
 
 class Schema {
+  prevQuery = "";
+  schema = "";
   tables = [];
   constructor() {}
 
   addTable(table) {
     this.tables.push(table);
+  }
+
+  setPrevSqlQuery(message) {
+    this.prevQuery += `${message};\n`;
+  }
+
+  getPrevSqlQuery() {
+    return this.prevQuery || "";
+  }
+
+  setSchema(name) {
+    this.schema = name;
+  }
+
+  getSchema() {
+    return this.schema;
   }
 
   findTable(name) {
@@ -88,7 +132,13 @@ function generateSchema() {
   const schema = new Schema();
   let currentTable = "";
   lines.forEach((line) => {
-    if (line.includes("tabla")) {
+    if (line.includes("borra el esquema ")) {
+      const schemaName = line.split("borra el esquema ")[1];
+      schema.setPrevSqlQuery(`DROP SCHEMA ${schemaName} CASCADE`);
+    } else if (line.includes("crea el esquema")) {
+      const schemaName = line.split("crea el esquema ")[1];
+      schema.setPrevSqlQuery(`CREATE SCHEMA ${schemaName}`);
+    } else if (line.includes("tabla")) {
       const tableName = line.split(" ")[1];
       currentTable = tableName;
       const table = new Table(tableName);
@@ -102,15 +152,18 @@ function generateSchema() {
     } else if (line.includes("relacion")) {
       const table = schema.findTable(currentTable);
       const data = line.split(" ");
-      const [_, fields, __, tableName] = data;
-      const properties = data.splice(5, line.length);
-      table.setField(fields, tableName, properties, true);
+      const [_, local, __, remote, ___, tableName] = data;
+      const properties = data.splice(6, line.length);
+      table.setRelation(tableName, `${local},${remote}`, properties);
+    } else if (line.includes("esquema")) {
+      const [_, name] = line.split(" ");
+      schema.setSchema(name);
     }
   });
   let tables = "";
-  console.log(schema.tables);
+  tables += schema.getPrevSqlQuery() + "\n";
   schema.tables.map((table) => {
-    tables += table.toSQL() + "\n\n";
+    tables += table.toSQL(schema.getSchema()) + "\n\n";
   });
   $("#taOutput").value = tables.substring(0, tables.length - 2);
 }
