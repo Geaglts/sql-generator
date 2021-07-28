@@ -15,7 +15,7 @@ header {
   height: 90px;
   display: flex;
   align-items: center;
-  background-color: slateblue;
+  background-color: #6022d3;
 }
 header h1 {
   margin-left: 1.3em;
@@ -34,9 +34,12 @@ header h1 {
   padding: 1em;
   font-family: Arial, Helvetica, sans-serif;
 }
+.text-container textarea:nth-child(2) {
+  background-color: rgba(96, 34, 211, 0.1);
+}
 .text-container .copied {
   display: block;
-  background-color: steelblue;
+  background-color: #6022d3;
   border-bottom-left-radius: 50px;
   border-bottom-right-radius: 50px;
   border-top-left-radius: 50px;
@@ -49,11 +52,11 @@ header h1 {
   color: white;
 }
 .text-container #btnCopy {
-  color: steelblue;
+  color: #6022d3;
   border: none;
   width: 80px;
   height: 35px;
-  border: 1px solid steelblue;
+  border: 1px solid #6022d3;
   border-radius: 3px;
   font-weight: bold;
   font-size: 12pt;
@@ -65,17 +68,17 @@ header h1 {
 }
 .text-container #btnCopy:hover {
   transform: scale(1.03);
-  box-shadow: 2px 4px 8px rgba(70, 130, 180, 0.1);
+  box-shadow: 2px 4px 8px rgba(96, 34, 211, 0.1);
 }
 .text-container #btnCopy:focus {
   transform: scale(0.95);
 }
 .text-container #btnGenerate {
-  color: steelblue;
+  color: #6022d3;
   border: none;
   width: 80px;
   height: 35px;
-  border: 1px solid steelblue;
+  border: 1px solid #6022d3;
   border-radius: 3px;
   font-weight: bold;
   font-size: 12pt;
@@ -87,7 +90,7 @@ header h1 {
 }
 .text-container #btnGenerate:hover {
   transform: scale(1.03);
-  box-shadow: 2px 4px 8px rgba(70, 130, 180, 0.1);
+  box-shadow: 2px 4px 8px rgba(96, 34, 211, 0.1);
 }
 .text-container #btnGenerate:focus {
   transform: scale(0.95);

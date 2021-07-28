@@ -1,3 +1,5 @@
+$primary-color: #6022d3;
+
 * {
   margin: 0;
   padding: 0;
@@ -29,7 +31,7 @@
 
   &:hover {
     transform: scale(1.03);
-    box-shadow: 2px 4px 8px rgba(steelblue, 0.1);
+    box-shadow: 2px 4px 8px rgba($primary-color, 0.1);
   }
 
   &:focus {
@@ -47,7 +49,7 @@ header {
   height: 90px;
   display: flex;
   align-items: center;
-  background-color: slateblue;
+  background-color: $primary-color;
 
   h1 {
     margin-left: 1.3em;
@@ -68,8 +70,12 @@ header {
     font-family: Arial, Helvetica, sans-serif;
   }
 
+  textarea:nth-child(2) {
+    background-color: rgba($primary-color, 0.1);
+  }
+
   .copied {
-    @include right-triangle(steelblue);
+    @include right-triangle($primary-color);
     display: none;
     height: 25px;
     padding: 0 0.5em;
@@ -80,14 +86,14 @@ header {
   }
 
   #btnCopy {
-    @include custom-button(steelblue, white);
+    @include custom-button($primary-color, white);
     position: absolute;
     top: 10px;
     right: 10px;
   }
 
   #btnGenerate {
-    @include custom-button(steelblue, white);
+    @include custom-button($primary-color, white);
     position: absolute;
     bottom: 10px;
     left: 10px;
