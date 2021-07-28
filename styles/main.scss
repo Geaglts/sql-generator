@@ -6,6 +6,12 @@
 }
 
 @mixin right-triangle($color) {
+  display: block;
+  background-color: $color;
+
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  border-top-left-radius: 50px;
 }
 
 // Mixins
@@ -60,6 +66,17 @@ header {
     height: calc(100vh - 90px);
     padding: 1em;
     font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .copied {
+    @include right-triangle(steelblue);
+    display: none;
+    height: 25px;
+    padding: 0 0.5em;
+    position: absolute;
+    top: 35px;
+    right: 80px;
+    color: white;
   }
 
   #btnCopy {

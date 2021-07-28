@@ -127,4 +127,8 @@ $("#btnCopy").addEventListener("click", () => {
   $("#taOutput").select();
   document.execCommand("copy");
   document.getSelection().removeAllRanges();
+  $(".copied").style.display = "block";
+  setTimeout(() => {
+    $(".copied").style.display = "none";
+  }, 1000);
 });

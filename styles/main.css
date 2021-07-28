@@ -34,6 +34,20 @@ header h1 {
   padding: 1em;
   font-family: Arial, Helvetica, sans-serif;
 }
+.text-container .copied {
+  display: block;
+  background-color: steelblue;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  border-top-left-radius: 50px;
+  display: none;
+  height: 25px;
+  padding: 0 0.5em;
+  position: absolute;
+  top: 35px;
+  right: 80px;
+  color: white;
+}
 .text-container #btnCopy {
   color: steelblue;
   border: none;
