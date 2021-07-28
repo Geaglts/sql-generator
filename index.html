@@ -6,10 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SQL Generator</title>
     <script src="js/app.js" defer></script>
+    <link rel="stylesheet" href="styles/main.css" />
   </head>
   <body>
+    <header>
+      <h1>SQL Generator</h1>
+    </header>
     <main>
-      <section>
+      <section class="text-container">
         <textarea
           name="input"
           id="taInput"
@@ -25,8 +29,8 @@
           placeholder="output"
         ></textarea>
         <button id="btnCopy">Copiar</button>
+        <button id="btnGenerate">Generar</button>
       </section>
-      <button id="btnGenerate">Generar</button>
     </main>
   </body>
 </html>

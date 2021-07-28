@@ -1,0 +1,82 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+}
+
+body {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  letter-spacing: 1px;
+  line-height: 1.5;
+}
+
+header {
+  height: 90px;
+  display: flex;
+  align-items: center;
+  background-color: slateblue;
+}
+header h1 {
+  margin-left: 1.3em;
+  color: white;
+}
+
+.text-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+}
+.text-container textarea {
+  border: none;
+  font-size: 14pt;
+  height: calc(100vh - 90px);
+  padding: 1em;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.text-container #btnCopy {
+  color: steelblue;
+  border: none;
+  width: 80px;
+  height: 35px;
+  border: 1px solid steelblue;
+  border-radius: 3px;
+  font-weight: bold;
+  font-size: 12pt;
+  cursor: pointer;
+  transition: 200ms ease-in-out;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.text-container #btnCopy:hover {
+  transform: scale(1.03);
+  box-shadow: 2px 4px 8px rgba(70, 130, 180, 0.1);
+}
+.text-container #btnCopy:focus {
+  transform: scale(0.95);
+}
+.text-container #btnGenerate {
+  color: steelblue;
+  border: none;
+  width: 80px;
+  height: 35px;
+  border: 1px solid steelblue;
+  border-radius: 3px;
+  font-weight: bold;
+  font-size: 12pt;
+  cursor: pointer;
+  transition: 200ms ease-in-out;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+.text-container #btnGenerate:hover {
+  transform: scale(1.03);
+  box-shadow: 2px 4px 8px rgba(70, 130, 180, 0.1);
+}
+.text-container #btnGenerate:focus {
+  transform: scale(0.95);
+}
+
+/*# sourceMappingURL=main.css.map */
