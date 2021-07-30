@@ -67,6 +67,9 @@ class Table {
       unulo: "ON UPDATE SET NULL",
       ucascada: "ON UPDATE CASCADE",
       primario: "PRIMARY KEY",
+      falso: "DEFAULT FALSE",
+      verdadero: "DEFAULT TRUE",
+      0: "DEFAULT 0",
     };
     for (let property of properties) {
       stringProperties += " " + SQL_PROPERTIES[property];
