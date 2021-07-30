@@ -127,6 +127,24 @@ class Schema {
   findTable(name) {
     return this.tables.find((table) => table.name === name);
   }
+
+  formatTableName(tableName) {
+    return `${this.schema ? `${this.schema}.` : ""}${tableName}`;
+  }
+
+  dame(line) {
+    // dame auth
+    // select * from auth
+    let query = "";
+    const comandos = line.split(" ");
+    console.log(comandos.length);
+    if (comandos.length === 2) {
+      query = `SELECT * FROM ${this.formatTableName(comandos[1])}`;
+    } else if (comandos.length === 4) {
+      query = `SELECT ${comandos[1]} FROM ${this.formatTableName(comandos[3])}`;
+    }
+    this.setPrevSqlQuery(query);
+  }
 }
 
 function generateSchema() {
@@ -135,7 +153,9 @@ function generateSchema() {
   const schema = new Schema();
   let currentTable = "";
   lines.forEach((line) => {
-    if (line.includes("borra el esquema ")) {
+    if (line.substring(0, 4) === "dame") {
+      schema.dame(line);
+    } else if (line.includes("borra el esquema ")) {
       const schemaName = line.split("borra el esquema ")[1];
       schema.setPrevSqlQuery(`DROP SCHEMA ${schemaName} CASCADE`);
     } else if (line.includes("crea el esquema")) {
