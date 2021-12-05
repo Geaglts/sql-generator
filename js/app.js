@@ -139,11 +139,11 @@ class Schema {
     // select * from auth
     let query = "";
     const comandos = line.split(" ");
-    console.log(comandos.length);
     if (comandos.length === 2) {
       query = `SELECT * FROM ${this.formatTableName(comandos[1])}`;
     } else if (comandos.length === 4) {
-      query = `SELECT ${comandos[1]} FROM ${this.formatTableName(comandos[3])}`;
+      const attributes = comandos[1].replace(/\,/g, ", ");
+      query = `SELECT ${attributes} FROM ${this.formatTableName(comandos[3])}`;
     }
     this.setPrevSqlQuery(query);
   }
