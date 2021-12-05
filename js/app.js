@@ -1,6 +1,8 @@
 /*
-borra el esquema public
-crea el esquema public
+borra el esquema dev
+crea el esquema dev
+
+esquema dev
 
 tabla auth
 campo id
