@@ -34,6 +34,16 @@ campo [nombre] [tipo] [propiedad o propiedades]
 relacion/a [id_local] con [id_remoto] en [tabla_remota] [propiedad o propiedades]
 ```
 
+### Consultas
+
+```
+# Select a una tabla
+dame [tabla]
+
+# Select con atributos específicos de una tabla
+dame [atributos separados por comas] de [tabla]
+```
+
 ## 🧷 Propiedades
 
 |  Syntax   |     Description      |
@@ -51,9 +61,11 @@ relacion/a [id_local] con [id_remoto] en [tabla_remota] [propiedad o propiedades
 | verdadero |    "DEFAULT TRUE"    |
 |     0     |     "DEFAULT 0"      |
 
-## 🛠 Ejemplo
+## 🛠 Ejemplos
 
-### 🍇 Estructura ingresada
+### Esquema basico
+
+**🍇 Estructura ingresada**
 
 ```
 borra el esquema dev
@@ -81,7 +93,7 @@ relaciona id con id en auth
 relaciona nombre con email en users enulo
 ```
 
-### 🍷 Estructura generada
+**🍷 Estructura generada**
 
 ```sql
 DROP SCHEMA dev CASCADE;
@@ -108,4 +120,24 @@ CREATE TABLE dev.prueba (
     FOREIGN KEY (id) REFERENCES auth(id),
     FOREIGN KEY (nombre) REFERENCES users(email) ON DELETE SET NULL
 );
+```
+
+### Consultas
+
+**⌨ Datos de ingreso**
+
+```
+esquema dev
+
+dame users
+dame edad de persona
+dame cantidad,precio,nombre,descripcion de product
+```
+
+**🖨 Consultas generadas**
+
+```sql
+SELECT * FROM dev.users;
+SELECT edad FROM dev.persona;
+SELECT cantidad,precio,nombre,descripcion FROM dev.product;
 ```
