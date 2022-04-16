@@ -2,9 +2,8 @@
 
 # Fixing
 
-[ ] If and attribute have "id" in his name the interperter get all generic id features
-
-[ ] Don't create a table if this already exists
+- [ ] If and attribute have "id" in his name the interperter get all generic id features
+- [ ] Don't create a table if this already exists
 
 ## 🖥 Página WEB
 
