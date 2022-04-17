@@ -4,7 +4,7 @@
 
 - [x] If and attribute have "id" in his name the interperter get all generic id features
 - [x] Don't create a table if this already exists
-- [ ] Responsive design
+- [x] Responsive design
 
 ## 🖥 Página WEB
 

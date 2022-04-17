@@ -13,6 +13,13 @@
       <h1>SQL Generator</h1>
     </header>
     <main>
+      <div id="responsive-generated-schema">
+        <button class="responsive-close-schema">x</button>
+        <div id="responsive-schema"></div>
+        <div class="responsive-buttons">
+          <button class="btnResponsiveCopy">copiar</button>
+        </div>
+      </div>
       <section class="text-container">
         <textarea
           name="input"
@@ -28,7 +35,7 @@
           rows="30"
           placeholder="output"
         ></textarea>
-        <button id="btnCopy">Copiar</button>
+        <button class="btnCopy">Copiar</button>
         <p class="copied">Copiado</p>
         <button id="btnGenerate">Generar</button>
       </section>

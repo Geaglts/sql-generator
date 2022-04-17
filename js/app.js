@@ -200,22 +200,36 @@ function generateSchema() {
     tables += table.toSQL(schema.getSchema()) + "\n\n";
   });
   $("#taOutput").value = tables.substring(0, tables.length - 2);
+  return tables.substring(0, tables.length - 2);
+}
+
+function copyContent() {
+  navigator.clipboard.writeText(generateSchema());
 }
 
 $("#btnGenerate").addEventListener("click", () => {
-  generateSchema();
+  if (window.innerWidth <= 1280) {
+    const currentSchema = generateSchema();
+    if (currentSchema.length > 0) {
+      $("#responsive-schema").innerHTML = "";
+      const code = document.createElement("code");
+      code.textContent = "";
+      code.innerText = currentSchema;
+      $("#responsive-generated-schema").style.zIndex = "1";
+      $("#responsive-schema").appendChild(code);
+    }
+  } else {
+    generateSchema();
+  }
 });
 
 $("#taInput").addEventListener("keyup", () => {
   generateSchema();
 });
 
-$("#btnCopy").addEventListener("click", () => {
-  $("#taOutput").select();
-  document.execCommand("copy");
-  document.getSelection().removeAllRanges();
-  $(".copied").style.display = "block";
-  setTimeout(() => {
-    $(".copied").style.display = "none";
-  }, 1000);
+$(".btnResponsiveCopy").addEventListener("click", copyContent);
+$(".btnCopy").addEventListener("click", copyContent);
+
+$(".responsive-close-schema").addEventListener("click", () => {
+  $("#responsive-generated-schema").style.zIndex = "0";
 });

@@ -22,6 +22,10 @@ header h1 {
   color: white;
 }
 
+#responsive-generated-schema {
+  display: none;
+}
+
 .text-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -51,7 +55,7 @@ header h1 {
   right: 80px;
   color: white;
 }
-.text-container #btnCopy {
+.text-container .btnCopy {
   color: #6022d3;
   border: none;
   width: 80px;
@@ -66,11 +70,11 @@ header h1 {
   top: 10px;
   right: 10px;
 }
-.text-container #btnCopy:hover {
+.text-container .btnCopy:hover {
   transform: scale(1.03);
   box-shadow: 2px 4px 8px rgba(96, 34, 211, 0.1);
 }
-.text-container #btnCopy:focus {
+.text-container .btnCopy:focus {
   transform: scale(0.95);
 }
 .text-container #btnGenerate {
@@ -94,6 +98,88 @@ header h1 {
 }
 .text-container #btnGenerate:focus {
   transform: scale(0.95);
+}
+
+@media (max-width: 1280px) {
+  #responsive-generated-schema {
+    height: calc(100vh - 90px);
+    width: 100%;
+    display: block;
+    position: absolute;
+    background: #1f2630;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+  #responsive-generated-schema #responsive-schema {
+    overflow-y: scroll;
+  }
+  #responsive-generated-schema #responsive-schema code {
+    color: white;
+  }
+  #responsive-generated-schema .responsive-close-schema {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    border: none;
+    font-weight: bold;
+    color: #1f2630;
+    transition: transform 350ms ease;
+    background-color: none;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 22pt;
+    padding-bottom: 5px;
+  }
+  #responsive-generated-schema .responsive-close-schema:hover {
+    cursor: pointer;
+    transition: transform 250ms ease;
+    transform: scale(0.95) rotate(180deg);
+    color: #6022d3;
+  }
+  #responsive-generated-schema .responsive-buttons {
+    padding: 16px 0;
+    display: flex;
+    justify-content: center;
+  }
+  #responsive-generated-schema .responsive-buttons button {
+    color: #6022d3;
+    border: none;
+    width: 80px;
+    height: 35px;
+    border: 1px solid #6022d3;
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 12pt;
+    cursor: pointer;
+    transition: 200ms ease-in-out;
+  }
+  #responsive-generated-schema .responsive-buttons button:hover {
+    transform: scale(1.03);
+    box-shadow: 2px 4px 8px rgba(96, 34, 211, 0.1);
+  }
+  #responsive-generated-schema .responsive-buttons button:focus {
+    transform: scale(0.95);
+  }
+
+  .text-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+  }
+  .text-container #btnGenerate {
+    left: auto;
+    top: 10px;
+    right: 10px;
+  }
+  .text-container .btnCopy,
+.text-container textarea:nth-child(2) {
+    display: none;
+  }
 }
 
 /*# sourceMappingURL=main.css.map */

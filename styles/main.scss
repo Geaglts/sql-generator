@@ -1,4 +1,6 @@
 $primary-color: #6022d3;
+$dark-color: #1f2630;
+$content-height: calc(100vh - 90px);
 
 * {
   margin: 0;
@@ -39,6 +41,27 @@ $primary-color: #6022d3;
   }
 }
 
+@mixin buttonWithRotation($size, $color, $hcolor, $bg) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: $size;
+  height: $size;
+  border-radius: 100px;
+  border: none;
+  font-weight: bold;
+  color: $color;
+  transition: transform 350ms ease;
+  background-color: $bg;
+
+  &:hover {
+    cursor: pointer;
+    transition: transform 250ms ease;
+    transform: scale(0.95) rotate(180deg);
+    color: $hcolor;
+  }
+}
+
 body {
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   letter-spacing: 1px;
@@ -57,6 +80,10 @@ header {
   }
 }
 
+#responsive-generated-schema {
+  display: none;
+}
+
 .text-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -65,7 +92,7 @@ header {
   textarea {
     border: none;
     font-size: 14pt;
-    height: calc(100vh - 90px);
+    height: $content-height;
     padding: 1em;
     font-family: Arial, Helvetica, sans-serif;
   }
@@ -85,7 +112,7 @@ header {
     color: white;
   }
 
-  #btnCopy {
+  .btnCopy {
     @include custom-button($primary-color, white);
     position: absolute;
     top: 10px;
@@ -97,5 +124,62 @@ header {
     position: absolute;
     bottom: 10px;
     left: 10px;
+  }
+}
+
+@media (max-width: 1280px) {
+  #responsive-generated-schema {
+    height: $content-height;
+    width: 100%;
+    display: block;
+    position: absolute;
+    background: $dark-color;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    grid-template-columns: 1fr;
+    padding: 20px;
+
+    #responsive-schema {
+      overflow-y: scroll;
+
+      code {
+        color: white;
+      }
+    }
+
+    .responsive-close-schema {
+      @include buttonWithRotation(50px, $dark-color, $primary-color, none);
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      font-size: 22pt;
+      padding-bottom: 5px;
+    }
+
+    .responsive-buttons {
+      padding: 16px 0;
+      display: flex;
+      justify-content: center;
+
+      button {
+        @include custom-button($primary-color, white);
+      }
+    }
+  }
+
+  .text-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+
+    #btnGenerate {
+      left: auto;
+      top: 10px;
+      right: 10px;
+    }
+
+    .btnCopy,
+    textarea:nth-child(2) {
+      display: none;
+    }
   }
 }
