@@ -85,7 +85,7 @@ ${(() => {
   let fields = "";
   const keys = Object.keys(this.fields);
   for (let key of keys) {
-    if (key.includes("id")) {
+    if (key === "id" || key === `id_${this.name}` || key === `id${this.name}`) {
       fields += `    ${key} SERIAL PRIMARY KEY NOT NULL UNIQUE,\n`;
     } else {
       fields += `    ${key} ${this.fields[key].type?.toUpperCase() || ""}`;
@@ -166,14 +166,23 @@ function generateSchema() {
     } else if (line.includes("tabla")) {
       const tableName = line.split(" ")[1];
       currentTable = tableName;
-      const table = new Table(tableName);
-      schema.addTable(table);
+      if (currentTable) {
+        const tableExists = schema.tables.findIndex(({ name }) => {
+          return name.toLowerCase().includes(currentTable.toLowerCase());
+        });
+        if (tableExists < 0) {
+          const table = new Table(tableName);
+          schema.addTable(table);
+        }
+      }
     } else if (line.includes("campo")) {
-      const table = schema.findTable(currentTable);
-      const data = line.split(" ");
-      const [_, nameField, typeField] = data;
-      const properties = data.splice(3, line.length);
-      table.setField(nameField, typeField, properties);
+      try {
+        const table = schema.findTable(currentTable);
+        const data = line.split(" ");
+        const [_, nameField, typeField] = data;
+        const properties = data.splice(3, line.length);
+        table.setField(nameField, typeField, properties);
+      } catch {}
     } else if (line.includes("relacion")) {
       const table = schema.findTable(currentTable);
       const data = line.split(" ");
