@@ -90,7 +90,7 @@ campo id
 campo email varchar(64)
 campo password varchar(64)
 campo username varchar(16)
-relacion id,id con auth
+relaciona id con id con auth
 
 tabla prueba
 campo id
