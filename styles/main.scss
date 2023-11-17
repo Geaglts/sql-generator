@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700;900&display=swap");
+
 $primary-color: #6022d3;
 $dark-color: #1f2630;
 $content-height: calc(100vh - 90px);
@@ -7,15 +9,7 @@ $content-height: calc(100vh - 90px);
   padding: 0;
   box-sizing: border-box;
   outline: none;
-}
-
-@mixin right-triangle($color) {
-  display: block;
-  background-color: $color;
-
-  border-bottom-left-radius: 50px;
-  border-bottom-right-radius: 50px;
-  border-top-left-radius: 50px;
+  font-family: "DM Sans", sans-serif;
 }
 
 // Mixins
@@ -41,6 +35,14 @@ $content-height: calc(100vh - 90px);
   }
 }
 
+@mixin right-triangle($color) {
+  display: block;
+  background-color: $color;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  border-top-left-radius: 50px;
+}
+
 @mixin buttonWithRotation($size, $color, $hcolor, $bg) {
   display: flex;
   justify-content: center;
@@ -62,8 +64,19 @@ $content-height: calc(100vh - 90px);
   }
 }
 
+// clases
+.light-button {
+  color: white;
+  font-size: 12pt;
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 body {
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   letter-spacing: 1px;
   line-height: 1.5;
 }
@@ -73,9 +86,10 @@ header {
   display: flex;
   align-items: center;
   background-color: $primary-color;
+  justify-content: space-between;
+  padding: 0 1.3em;
 
   h1 {
-    margin-left: 1.3em;
     color: white;
   }
 }
@@ -94,7 +108,7 @@ header {
     font-size: 14pt;
     height: $content-height;
     padding: 1em;
-    font-family: Arial, Helvetica, sans-serif;
+    resize: none;
   }
 
   textarea:nth-child(2) {
